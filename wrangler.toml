@@ -12,8 +12,6 @@ ESA_TEAM_NAME = "spookies"
 ESA_MAX_ARTICLE_LINES = "10"
 ESA_MAX_COMMENT_LINES = "10"
 
-# kujaku.spookies.co.jp のゾーンをCloudflareに追加した後、以下を有効化する
-# (openspec/changes/migrate-to-cloudflare-workers/tasks.md の 6.2 参照)
-# [[routes]]
-# pattern = "kujaku.spookies.co.jp/*"
-# custom_domain = true
+[[routes]]
+pattern = "kujaku.spookies.tech"
+custom_domain = true

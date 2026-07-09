@@ -35,7 +35,7 @@
 ## 6. デプロイ（カスタムドメイン利用、CI/CDは今回構築しない）
 
 - [x] 6.1 `wrangler deploy`でWorkerをデプロイする（`https://kujaku.spookies.workers.dev` に本番デプロイ済み。`url_verification`応答を実機確認済み）
-- [ ] 6.2 （リポジトリ管理者、手動）`kujaku.spookies.co.jp` のゾーンをCloudflareアカウント（spookies root account）に追加し、DNSレコードとWorkerのルートを設定する（`wrangler.toml`に設定例をコメントで追加済み。ゾーンは未追加であることを確認済み — ネームサーバー変更を伴うためリポジトリ管理者側での対応が必要）
+- [x] 6.2 カスタムドメインを設定する（当初検討していた`kujaku.spookies.co.jp`ではなく、既にCloudflareにゾーンが存在する`kujaku.spookies.tech`を採用。`wrangler.toml`の`[[routes]]`に設定し、`wrangler deploy`で有効化・実機確認済み）
 - [x] 6.3 （スコープ外のため対応不要）CI/CDによる自動デプロイは今回のスコープでは構築しない。将来必要になった場合に別途検討する
 
 ## 7. 切り替え（本リポジトリ外の手動作業）
