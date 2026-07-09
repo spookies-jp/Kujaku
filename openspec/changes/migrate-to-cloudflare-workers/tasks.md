@@ -40,13 +40,21 @@
 
 ## 7. 切り替え（本リポジトリ外の手動作業）
 
-- [ ] 7.1 （リポジトリ管理者）Slack App管理画面から実際の`url_verification`チャレンジを送信し、デプロイ済みWorkerが正しく応答することを確認する
-- [ ] 7.2 （リポジトリ管理者）Slack Appの Event Subscriptions の「Request URL」を新しいCloudflare Worker（カスタムドメイン）のURLに更新する
-- [ ] 7.3 （リポジトリ管理者）Slackに実際のesa URLを投稿し、unfurlがエンドツーエンドで正しく表示されることを確認する
-- [ ] 7.4 （リポジトリ管理者）切り替え直後の期間、Cloudflare Workers Logs（`wrangler tail`）でエラーを監視する
+- [x] 7.1 （リポジトリ管理者）Slack App管理画面から実際の`url_verification`チャレンジを送信し、デプロイ済みWorkerが正しく応答することを確認する
+- [x] 7.2 （リポジトリ管理者）Slack Appの Event Subscriptions の「Request URL」を新しいCloudflare Worker（カスタムドメイン）のURLに更新する
+- [x] 7.3 （リポジトリ管理者）Slackに実際のesa URLを投稿し、unfurlがエンドツーエンドで正しく表示されることを確認する
+- [x] 7.4 （リポジトリ管理者）切り替え直後の期間、エラーを監視する（[9章](#9-エラー監視sentry)のSentry導入により、未処理エラーが自動通知されるようになったため継続的な監視体制を確保）
 
 ## 8. Herokuの廃止
 
-- [ ] 8.1 （リポジトリ管理者）Heroku RedisおよびPapertrailのアドオンを削除する
-- [ ] 8.2 （リポジトリ管理者）Cloudflareデプロイの安定稼働を確認した後、Herokuアプリを削除または停止する
+- [x] 8.1 （リポジトリ管理者）Heroku RedisおよびPapertrailのアドオンを削除する
+- [x] 8.2 （リポジトリ管理者）Cloudflareデプロイの安定稼働を確認した後、Herokuアプリを削除または停止する
 - [x] 8.3 `README.md`からHerokuの「Deploy」ボタンと無料枠終了の警告を削除し、代わりにCloudflareでのセットアップ手順を記載する
+
+## 9. エラー監視（Sentry）
+
+- [x] 9.1 `@sentry/cloudflare`を依存に追加し、`wrangler.toml`に`compatibility_flags = ["nodejs_compat"]`を設定する
+- [x] 9.2 `src/index.ts`の`fetch`ハンドラを`Sentry.withSentry`でラップし、未処理エラーを自動捕捉する（esa API失敗時の無音スキップなど明示的なイベント送信は今回のスコープ外とし、未処理エラーのみを対象とした）
+- [x] 9.3 `SENTRY_DSN`を`wrangler.toml`の`[vars]`に設定する（DSNは公開情報のため非シークレット）
+- [x] 9.4 ローカル(`wrangler dev`)で不正なペイロードを送り例外を発生させ、Sentryダッシュボードにイベントが届くことを確認する
+- [x] 9.5 本番へデプロイし、`url_verification`が壊れていないことを確認する

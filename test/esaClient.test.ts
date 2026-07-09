@@ -11,6 +11,7 @@ function makeEnv(): Env {
     ESA_MAX_COMMENT_LINES: "10",
     SLACK_OAUTH_ACCESS_TOKEN: "slack-token",
     ESA_ACCESS_TOKEN: "esa-token",
+    SENTRY_DSN: "",
   };
 }
 

@@ -1,3 +1,4 @@
+import * as Sentry from "@sentry/cloudflare";
 import { getComment, getPost } from "./esaClient";
 import { unfurl } from "./slackClient";
 import type {
@@ -55,23 +56,26 @@ async function handleEventCallback(
   await unfurl(env, channel, message_ts, unfurls);
 }
 
-export default {
-  async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
-    if (request.method !== "POST") {
-      return new Response("Method Not Allowed", { status: 405 });
-    }
+export default Sentry.withSentry(
+  (env: Env) => ({ dsn: env.SENTRY_DSN }),
+  {
+    async fetch(request: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
+      if (request.method !== "POST") {
+        return new Response("Method Not Allowed", { status: 405 });
+      }
 
-    console.log("[START]");
-    const payload = (await request.json()) as SlackWebhookPayload;
+      console.log("[START]");
+      const payload = (await request.json()) as SlackWebhookPayload;
 
-    if (payload.type === "url_verification") {
-      return Response.json({ challenge: payload.challenge });
-    }
+      if (payload.type === "url_verification") {
+        return Response.json({ challenge: payload.challenge });
+      }
 
-    if (payload.type === "event_callback") {
-      await handleEventCallback(env, payload as SlackEventCallbackPayload);
-    }
+      if (payload.type === "event_callback") {
+        await handleEventCallback(env, payload as SlackEventCallbackPayload);
+      }
 
-    return Response.json({});
-  },
-} satisfies ExportedHandler<Env>;
+      return Response.json({});
+    },
+  } satisfies ExportedHandler<Env>,
+);

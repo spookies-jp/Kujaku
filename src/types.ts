@@ -5,6 +5,7 @@ export interface Env {
   ESA_MAX_COMMENT_LINES: string;
   SLACK_OAUTH_ACCESS_TOKEN: string;
   ESA_ACCESS_TOKEN: string;
+  SENTRY_DSN: string;
 }
 
 export interface SlackLink {

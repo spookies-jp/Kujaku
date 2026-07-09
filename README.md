@@ -4,7 +4,7 @@ Slackに貼られたesaのURLを展開するSlack Appです。
 
 ## 構成
 
-Cloudflare Workers（TypeScript）上で動作します。esa APIの検索結果は、短時間に同一のesa URLがUnfurlされた場合にesaのAPIを叩きすぎてRateLimitedにならないよう、Cloudflare Workers KVに1時間キャッシュします。
+Cloudflare Workers（TypeScript）上で動作します。esa APIの検索結果は、短時間に同一のesa URLがUnfurlされた場合にesaのAPIを叩きすぎてRateLimitedにならないよう、Cloudflare Workers KVに1時間キャッシュします。未処理エラーは[Sentry](https://sentry.io)（Cloudflare Workers向けSDK）に自動送信されます。
 
 ## セットアップ
 
@@ -16,7 +16,7 @@ Cloudflare Workers（TypeScript）上で動作します。esa APIの検索結果
    ```sh
    npx wrangler kv namespace create kujaku-unfurl-cache
    ```
-3. `wrangler.toml` の `[vars]` に `ESA_TEAM_NAME` などを設定する
+3. `wrangler.toml` の `[vars]` に `ESA_TEAM_NAME` と、[sentry.io](https://sentry.io)（Platform: Cloudflare Workers）で発行した `SENTRY_DSN` を設定する（DSNは公開情報のためシークレットではない）
 4. ローカル開発用に `.dev.vars.example` を `.dev.vars` としてコピーし、`SLACK_OAUTH_ACCESS_TOKEN` / `ESA_ACCESS_TOKEN` を設定する（`.dev.vars` はコミットしない）
    ```sh
    npx wrangler dev

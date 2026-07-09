@@ -1,6 +1,7 @@
 name = "kujaku"
 main = "src/index.ts"
 compatibility_date = "2025-07-09"
+compatibility_flags = ["nodejs_compat"] # @sentry/cloudflare が要求する
 account_id = "592530686b6fa3051e70e2d4ef9e1bf4" # spookies root account
 
 [[kv_namespaces]]
@@ -11,6 +12,7 @@ id = "f65ea13c913b46eca65283ec1c80fad9"
 ESA_TEAM_NAME = "spookies"
 ESA_MAX_ARTICLE_LINES = "10"
 ESA_MAX_COMMENT_LINES = "10"
+SENTRY_DSN = "https://4b79d984dd05df3c26d30e75c25450db@o4508792204951552.ingest.us.sentry.io/4511703724720128"
 
 [[routes]]
 pattern = "kujaku.spookies.tech"
