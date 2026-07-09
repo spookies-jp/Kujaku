@@ -1,0 +1,19 @@
+name = "kujaku"
+main = "src/index.ts"
+compatibility_date = "2025-07-09"
+account_id = "592530686b6fa3051e70e2d4ef9e1bf4" # spookies root account
+
+[[kv_namespaces]]
+binding = "UNFURL_CACHE"
+id = "f65ea13c913b46eca65283ec1c80fad9"
+
+[vars]
+ESA_TEAM_NAME = "spookies"
+ESA_MAX_ARTICLE_LINES = "10"
+ESA_MAX_COMMENT_LINES = "10"
+
+# kujaku.spookies.co.jp のゾーンをCloudflareに追加した後、以下を有効化する
+# (openspec/changes/migrate-to-cloudflare-workers/tasks.md の 6.2 参照)
+# [[routes]]
+# pattern = "kujaku.spookies.co.jp/*"
+# custom_domain = true
