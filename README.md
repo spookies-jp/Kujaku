@@ -2,17 +2,36 @@
 
 Slackに貼られたesaのURLを展開するSlack Appです。
 
-## Cache
-Kujakuには簡単なキャッシュ機構があります。これは、短時間に同一のesa URLがUnfurlされた場合に、esaのAPIを叩きすぎてRateLimitedにならない為に存在します。
+## 構成
 
-キャッシュにはRedisもしくはFirestoreが利用できます。`.env.example`を参考に環境変数を指定することで、キャッシュに用いるサービスを選ぶことができます。なお、RedisとFirestoreの両方が利用可能な場合はRedisが優先されます。
+Cloudflare Workers（TypeScript）上で動作します。esa APIの検索結果は、短時間に同一のesa URLがUnfurlされた場合にesaのAPIを叩きすぎてRateLimitedにならないよう、Cloudflare Workers KVに1時間キャッシュします。
 
-## :warning:Herokuの無料枠が終了します:warning:
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/FromAtom/Kujaku)
+## セットアップ
 
-HerokuおよびHeroku Redisの無料枠は終了されます。KujakuをHerokuでホスティングする（している）場合はご注意ください。
-
-- https://blog.heroku.com/next-chapter
+1. 依存パッケージをインストールする
+   ```sh
+   npm install
+   ```
+2. KV namespaceを作成し、発行された `id` を `wrangler.toml` の `UNFURL_CACHE` に設定する
+   ```sh
+   npx wrangler kv namespace create kujaku-unfurl-cache
+   ```
+3. `wrangler.toml` の `[vars]` に `ESA_TEAM_NAME` などを設定する
+4. ローカル開発用に `.dev.vars.example` を `.dev.vars` としてコピーし、`SLACK_OAUTH_ACCESS_TOKEN` / `ESA_ACCESS_TOKEN` を設定する（`.dev.vars` はコミットしない）
+   ```sh
+   npx wrangler dev
+   ```
+5. 本番用のシークレットを設定する
+   ```sh
+   npx wrangler secret put SLACK_OAUTH_ACCESS_TOKEN
+   npx wrangler secret put ESA_ACCESS_TOKEN
+   ```
+6. カスタムドメインで公開する場合は、Cloudflareアカウントにドメインのゾーンを追加し、`wrangler.toml` の `routes` を設定する
+7. デプロイする
+   ```sh
+   npx wrangler deploy
+   ```
+8. Slack Appの Event Subscriptions の Request URL を、デプロイ先のURLに設定する
 
 ## LICENSE
 [MIT](LICENSE)

@@ -1,0 +1,19 @@
+{
+  "name": "kujaku",
+  "version": "1.0.0",
+  "description": "Slack App that unfurls esa.io URLs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250709.0",
+    "typescript": "^5.6.3",
+    "vitest": "^4.1.10",
+    "wrangler": "^4.107.1"
+  }
+}
